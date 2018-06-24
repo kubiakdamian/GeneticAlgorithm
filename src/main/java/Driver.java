@@ -3,8 +3,8 @@ import java.util.Arrays;
 public class Driver {
 
     public static void main(String[] args){
+        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm((int) Math.ceil(Math.random() * 15 + 5));
         Population population = new Population(GeneticAlgorithm.POPULATION_SIZE).initializePopulation();
-        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
         System.out.println("----------------------------------------------");
         System.out.println("Generation # 0 " + " | Fittest chromosome fitness: " + population.getChromosomes()[0].getFitness());
         printPopulation(population, "Target chromosome: " + Arrays.toString(GeneticAlgorithm.TARGET_CHROMOSOME));
