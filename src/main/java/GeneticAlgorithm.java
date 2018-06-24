@@ -1,8 +1,7 @@
 public class GeneticAlgorithm {
     public static final int[] TARGET_CHROMOSOME = {1, 1, 1, 1, 1, 1, 1};
     public static final int NUMB_OF_ELITE_CHROMOSOMES = 2;
-    public static final int TOURNAMENT_SELECTION_SIZE = 4;
-    public static final double MUTATION_RATE = 0.01;
+    public static final double MUTATION_RATE = 0.02;
 
     public static int POPULATION_SIZE;
 
@@ -21,8 +20,8 @@ public class GeneticAlgorithm {
         }
 
         for(int i = NUMB_OF_ELITE_CHROMOSOMES; i < population.getChromosomes().length; i++){
-            Chromosome chromosome1 = selectTournamentPopulation(population).getChromosomes()[0];
-            Chromosome chromosome2 = selectTournamentPopulation(population).getChromosomes()[0];
+            Chromosome chromosome1 = selectChromosomeByRoulette(population);
+            Chromosome chromosome2 = selectChromosomeByRoulette(population);
             crossoverPopulation.getChromosomes()[i] = crossoverChromosome(chromosome1, chromosome2);
         }
 
@@ -72,14 +71,44 @@ public class GeneticAlgorithm {
         return mutateChromosome;
     }
 
-    private Population selectTournamentPopulation(Population population){
-        Population tournamentPopulation = new Population(TOURNAMENT_SELECTION_SIZE);
+    private Chromosome selectChromosomeByRoulette(Population population){
+        Chromosome rouletteChromosome = new Chromosome(TARGET_CHROMOSOME.length);
+        boolean solutionFound = false;
+        int rouletteValue = calculateRouletteValue(population);
+        double result = 0;
+        int i = 0;
+        double rand = Math.random();
 
-        for(int i = 0; i < TOURNAMENT_SELECTION_SIZE; i++){
-            tournamentPopulation.getChromosomes()[i] = population.getChromosomes()[(int)(Math.random() * population.getChromosomes().length)];
+        while(!solutionFound){
+            result += (double)convertChromosomeToNumber(population.getChromosomes()[i]) / rouletteValue;
+            if(rand < result){
+                rouletteChromosome = population.getChromosomes()[i];
+                solutionFound = true;
+            }
+            i++;
         }
 
-        tournamentPopulation.sortChromosomesByFitness();
-        return tournamentPopulation;
+        return rouletteChromosome;
+    }
+
+    private int calculateRouletteValue(Population population){
+        int result = 0;
+
+        for(int i = 0; i < population.getChromosomes().length; i++){
+            result += convertChromosomeToNumber(population.getChromosomes()[i]);
+        }
+
+        return result;
+    }
+
+    private int convertChromosomeToNumber(Chromosome chromosome){
+        String temp = "";
+        for(int i = 0; i < chromosome.getGenes().length; i++){
+            temp += chromosome.getGenes()[i];
+        }
+
+        int number = Integer.parseInt(temp, 2);
+
+        return 2 * number * number + 2;
     }
 }
