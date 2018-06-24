@@ -22,12 +22,14 @@ public class Chromosome {
 
     public int recalculateFitness(){
         int chromosomeFitness = 0;
+        String temp = "";
         for(int i = 0; i < genes.length; i++){
-            if(genes[i] == GeneticAlgorithm.TARGET_CHROMOSOME[i]){
-                chromosomeFitness++;
-            }
+            temp += genes[i];
         }
-        return chromosomeFitness;
+
+        int number = Integer.parseInt(temp, 2);
+
+        return 2 * number * number + 2;
     }
 
     public int[] getGenes(){

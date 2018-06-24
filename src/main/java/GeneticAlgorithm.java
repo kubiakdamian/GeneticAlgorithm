@@ -3,7 +3,7 @@ public class GeneticAlgorithm {
     public static final int POPULATION_SIZE = 8;
     public static final int NUMB_OF_ELITE_CHROMOSOMES = 2;
     public static final int TOURNAMENT_SELECTION_SIZE = 4;
-    public static final double MUTATION_RATE = 0.25;
+    public static final double MUTATION_RATE = 0.01;
 
     public Population evolve(Population population){
         return mutatePopulation(crossoverPopulation(population));

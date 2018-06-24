@@ -10,7 +10,7 @@ public class Driver {
         printPopulation(population, "Target chromosome: " + Arrays.toString(GeneticAlgorithm.TARGET_CHROMOSOME));
 
         int generationNumber = 0;
-        while(population.getChromosomes()[0].getFitness() < GeneticAlgorithm.TARGET_CHROMOSOME.length){
+        while(population.getChromosomes()[0].getFitness() < 2 * 127 * 127 + 2){
             generationNumber++;
             System.out.println("\n----------------------------------------------");
             population = geneticAlgorithm.evolve(population);
